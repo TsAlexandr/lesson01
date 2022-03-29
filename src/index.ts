@@ -22,6 +22,10 @@ let videos = [
 
 //Endpoints
 
+app.get('/', ((req, res) => {
+    res.send('Hello finally!!!!!!!!!!!!!!!!!')
+}))
+
 app.get('/videos', ((req, res) =>{
     res.send(videos)
     if (!videos) {
