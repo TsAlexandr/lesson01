@@ -23,11 +23,11 @@ let videos = [
 
 //Endpoints
 
-app.get('/', ((req, res) => {
+app.get('/', (req, res) => {
     res.send('Hello finally!!!!!!!!!!!!!!!!!')
-}))
+})
 
-app.get('/videos', ((req, res) =>{
+app.get('/videos', (req, res) =>{
     res.send(videos)
     if (!videos) {
         res.status(400)
@@ -35,7 +35,7 @@ app.get('/videos', ((req, res) =>{
         res.status(200)
     }
 
-}))
+})
 
 app.get('/videos/:videoId', (req, res) => {
     const id = +req.params.videoId;
