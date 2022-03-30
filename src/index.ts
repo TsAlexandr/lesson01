@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import bodyParser  from 'body-parser'
+
 //create app
 const app = express()
 
@@ -40,7 +41,7 @@ app.get('/videos/:videoId', (req, res) => {
     const id = +req.params.videoId;
     const video = videos.find(v => v.id === id)
     if (video) {
-        res.send(video)
+        res.status(200).send(video)
     }else{
         res.send(404)
     }
@@ -55,7 +56,7 @@ app.post('/videos', (req: Request, res: Response) => {
     videos.push(newVideo)
     res.send(newVideo)
     if(newVideo) {
-        res.send(newVideo).status(201)
+        res.status(201).send(newVideo)
     } else {
         res.status(400)
     }
@@ -63,24 +64,24 @@ app.post('/videos', (req: Request, res: Response) => {
 
 
 
-app.put('/videos/:videoId',(req: Request, res: Response)=>{
-    const id = +req.params.videoId;
+app.put('/videos/:id',(req: Request, res: Response)=>{
+    const id = +req.params.id;
     const video = videos.find(v => v.id === id)
     if (video) {
         video.title = req.body.title
-        res.send(video).status(204)
-    }else{
+        res.status(204).send(video)
+    }else {
         res.status(400)
     }
 })
 
 
 
-app.delete('/videos/:videoId',(req: Request, res: Response)=>{
-    const id = +req.params.videoId;
-    const video = videos.filter(v => v.id !== id)
-        if(video) {
-            res.status(204)
+app.delete('/videos/:id',(req: Request, res: Response)=>{
+    const id = +req.params.id;
+    videos = videos.filter(v => v.id !== id)
+        if(videos) {
+            res.sendStatus(204)
         } else {
             res.status(404)
         }
