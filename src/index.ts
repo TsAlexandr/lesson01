@@ -79,8 +79,8 @@ app.put('/videos/:id',(req: Request, res: Response)=>{
 
 app.delete('/videos/:id',(req: Request, res: Response)=>{
     const id = +req.params.id;
-    videos = videos.filter(v => v.id !== id)
-        if(videos) {
+    const newVideos = videos.filter(v => v.id !== id)
+        if(newVideos.length < videos.length) {
             res.sendStatus(204)
         } else {
             res.status(404)
