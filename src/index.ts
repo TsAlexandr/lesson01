@@ -30,9 +30,9 @@ app.get('/', (req, res) => {
 app.get('/videos', (req, res) =>{
     res.send(videos)
     if (!videos) {
-        res.status(400)
+        res.send(400)
     } else {
-        res.status(200)
+        res.send(200)
     }
 
 })
@@ -41,7 +41,7 @@ app.get('/videos/:videoId', (req, res) => {
     const id = +req.params.videoId;
     const video = videos.find(v => v.id === id)
     if (video) {
-        res.status(200).send(video)
+        res.send(200).send(video)
     }else{
         res.send(404)
     }
@@ -56,9 +56,9 @@ app.post('/videos', (req: Request, res: Response) => {
     videos.push(newVideo)
     res.send(newVideo)
     if(newVideo) {
-        res.status(201).send(newVideo)
+        res.send(201).send(newVideo)
     } else {
-        res.status(400)
+        res.send(400)
     }
 })
 
@@ -69,22 +69,23 @@ app.put('/videos/:id',(req: Request, res: Response)=>{
     const video = videos.find(v => v.id === id)
     if (video) {
         video.title = req.body.title
-        res.status(204).send(video)
+        res.send(204).send(video)
     }else {
-        res.status(400)
+        res.send(400)
     }
 })
 
 
 
 app.delete('/videos/:id',(req: Request, res: Response)=>{
-    const id = +req.params.id;
-    const newVideos = videos.filter(v => v.id !== id)
-        if(newVideos.length < videos.length) {
-            res.sendStatus(204)
-        } else {
-            res.status(404)
-        }
+    const id = +req.params.id
+    const delBlog = videos.filter(p => p.id != id)
+    if (delBlog.length < videos.length) {
+        videos = delBlog
+        res.send(204)
+    } else {
+        res.send(404)
+    }
 })
 
 //port
