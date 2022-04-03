@@ -76,16 +76,16 @@ app.put('/videos/:id',(req: Request, res: Response)=>{
 })
 
 
-
-app.delete('/videos/:id',(req: Request, res: Response)=>{
-    const id = +req.params.id
-    const delBlog = videos.filter(p => p.id != id)
-    if (delBlog.length < videos.length) {
-        videos = delBlog
-        res.send(204)
-    } else {
+app.delete("/videos/:id", (req: Request, res: Response) => {
+    const delVideo = videos.findIndex((video) => video.id === parseInt(req.params.id))
+    if (delVideo === -1) {
         res.send(404)
+        return
     }
+
+    videos.splice(delVideo, 1)
+    res.send(204)
+    res.send(videos)
 })
 
 //port
