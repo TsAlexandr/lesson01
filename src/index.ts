@@ -3,7 +3,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import {videosRepository} from "./repositories/videos-repository";
 import {videosRouter} from "./routes/videos-routes";
-import {authMiddleware} from "./middlewares/auth-middleware";
+//import {authMiddleware} from "./middlewares/auth-middleware";
 
 //create app
 const app = express()
@@ -14,7 +14,7 @@ const port = process.env.PORT || 5000
 app.use(cors())
 app.use(bodyParser.json())
 app.use('/videos', videosRouter)
-app.use(authMiddleware)
+//app.use(authMiddleware)
 
 //port
 
