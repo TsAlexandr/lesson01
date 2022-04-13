@@ -1,9 +1,9 @@
-import express, {Request, Response} from 'express'
+import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import {videosRepository} from "./repositories/videos-repository";
+import {runDb} from "./repositories/db";
 import {videosRouter} from "./routes/videos-routes";
-//import {authMiddleware} from "./middlewares/auth-middleware";
+
 
 //create app
 const app = express()
@@ -18,6 +18,11 @@ app.use('/videos', videosRouter)
 
 //port
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+const startApp = async () => {
+    await runDb()
+    app.listen(port, () => {
+        console.log(`Example app listening on port: ${port}`)
+    })
+}
+
+startApp()

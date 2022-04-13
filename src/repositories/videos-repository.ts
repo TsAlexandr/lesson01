@@ -1,39 +1,37 @@
 import {videos} from "./db";
+import {client} from "./db";
+
+const videosCollection = client.db().collection('videos- management')
+
 
 export const videosRepository = {
-    getVideos() {
+    async getVideos() {
         return videos
     },
-    getVideoById(id: number) {
-        return videos.find(v => v.id === id)
-
+    async getVideoById(id: number) {
+        const video = await videosCollection.findOne({id})
+        if (video) {
+            return video
+        } else {
+            return null
+        }
     },
-    deleteVideoById: function (id: number) {
-        const delVideo = videos.filter(video => video.id === id)
-            if (delVideo && videos.indexOf(delVideo[0]) !== -1) {
-                const newV = videos.indexOf(delVideo[0])
-                videos.splice(newV, 1)
-                return true
-            } else {
-                return false
-            }
+    async deleteVideoById(id: number) {
+        const delVideo = await videosCollection.deleteOne({id})
+        return delVideo.deletedCount === 1
     },
-    updateVideoById(id: number, title: string) {
-       const video = videos.find(v => v.id === id)
-            if(video){
-                video.title = title
-                return true
-            }else {
-                return false
-            }
+    async updateVideoById(id: number, title: string) {
+       const updVideo = await videosCollection.updateOne(
+           {id}, {$set: {title}})
+        return updVideo.matchedCount === 1
     },
-    createVideo(title: string) {
+    async createVideo(title: string) {
         const newVideo = {
             id: +(new Date()),
             title: title,
             author: 'it-incubator.eu'
         }
-            videos.push(newVideo)
-            return newVideo
+        const videos = await videosCollection.insertOne(newVideo)
+        return newVideo
         }
 }

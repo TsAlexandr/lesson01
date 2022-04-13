@@ -1,69 +1,71 @@
 import {Request, Response, Router} from 'express'
 import {videosRepository} from "../repositories/videos-repository";
-import {body, validationResult} from "express-validator";
 import {inputValidatorMiddleware} from "../middlewares/input-validator-middleware";
+import {body} from "express-validator";
 
 export const videosRouter = Router({})
+
 const validTitle = body('title')
     .isLength({min: 5, max: 15})
     .withMessage('Max 15 symbols')
     .matches(/^[\w ]*$/)
     .withMessage('Only letters/numbers-_ and whitespace')
 
-videosRouter.get('/', (req, res) => {
-    const videos = videosRepository.getVideos()
-        if (!videos) {
-            res.status(400)
-        } else {
-            res.send(videos)
-        }
-    })
+videosRouter.get('/',
+    async (req, res) => {
+    const videos = await videosRepository.getVideos()
+    if (!videos) {
+        res.status(400)
+    } else {
+        res.send(videos)
+    }
+})
 
     .get('/:videoId',
         inputValidatorMiddleware,
-        (req, res) => {
-        const id = +req.params.videoId;
-        const video = videosRepository.getVideoById(id)
+        async (req, res) => {
+
+            const video = await videosRepository.getVideoById(+req.params.id)
             if (video) {
                 res.send(video)
             } else {
                 res.status(404)
             }
-    })
+        })
+
     .post('/',
         validTitle,
         inputValidatorMiddleware,
-        (req: Request, res: Response) =>
-        {
+        async (req: Request, res: Response) => {
 
-            const newVideo = videosRepository.createVideo(req.body.title)
+            const newVideo = await videosRepository.createVideo(req.body.title)
             if (newVideo) {
-                    res.send(newVideo)
-                } else {
-                    res.status(400)
+                res.send(newVideo)
+            } else {
+                res.status(400)
             }
         })
+
     .put('/:videoId',
         validTitle,
         inputValidatorMiddleware,
-        (req: Request, res: Response) =>
-    {
-            const id = +req.params.videoId
-            const video = videosRepository.updateVideoById(id, req.body.title)
-                if (video) {
-                    res.sendStatus(204)
-                } else {
-                    res.sendStatus(404)
-                }
-    })
+        async (req: Request, res: Response) => {
+            const isUpdVideo = await videosRepository.updateVideoById(+req.params.id, req.body.title)
+            if (isUpdVideo) {
+                const video = videosRepository.getVideoById(+req.params.id)
+                res.send(video).sendStatus(204)
+            } else {
+                res.sendStatus(404)
+            }
+        })
+
     .delete("/:videoId",
-        (req: Request, res: Response) => {
-        const id = +req.params.videoId
-        const delVideo = videosRepository.deleteVideoById(id)
+        async (req: Request, res: Response) => {
+            const delVideo = await videosRepository.deleteVideoById(+req.params.videoId)
             if (delVideo) {
                 res.sendStatus(204)
             } else {
                 res.sendStatus(404)
             }
 
-    })
+        })
