@@ -1,20 +1,19 @@
-import {videos} from "./db";
-import {client} from "./db";
-
-const videosCollection = client.db().collection('videos- management')
-
+import {videosCollection} from "./db";
+import
 
 export const videosRepository = {
     async getVideos() {
-        return videos
+        const video = await videosCollection.find()
+            if (video) {
+                return video
+            } else {
+                return null
+            }
     },
     async getVideoById(id: number) {
         const video = await videosCollection.findOne({id})
-        if (video) {
             return video
-        } else {
-            return null
-        }
+
     },
     async deleteVideoById(id: number) {
         const delVideo = await videosCollection.deleteOne({id})
@@ -25,12 +24,7 @@ export const videosRepository = {
            {id}, {$set: {title}})
         return updVideo.matchedCount === 1
     },
-    async createVideo(title: string) {
-        const newVideo = {
-            id: +(new Date()),
-            title: title,
-            author: 'it-incubator.eu'
-        }
+    async createVideo(newVideo) {
         const videos = await videosCollection.insertOne(newVideo)
         return newVideo
         }

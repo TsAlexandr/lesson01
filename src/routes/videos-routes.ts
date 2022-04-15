@@ -1,5 +1,5 @@
 import {Request, Response, Router} from 'express'
-import {videosRepository} from "../repositories/videos-repository";
+import {videosService} from "../domain/videos-service";
 import {inputValidatorMiddleware} from "../middlewares/input-validator-middleware";
 import {body} from "express-validator";
 
@@ -13,11 +13,11 @@ const validTitle = body('title')
 
 videosRouter.get('/',
     async (req, res) => {
-    const videos = await videosRepository.getVideos()
+    const videos = await videosService.getVideos()
     if (!videos) {
         res.status(400)
     } else {
-        res.send(videos)
+        res.send(videos).status(200)
     }
 })
 
@@ -25,9 +25,9 @@ videosRouter.get('/',
         inputValidatorMiddleware,
         async (req, res) => {
 
-            const video = await videosRepository.getVideoById(+req.params.id)
+            const video = await videosService.getVideoById(+req.params.id)
             if (video) {
-                res.send(video)
+                res.send(video).status(200)
             } else {
                 res.status(404)
             }
@@ -37,10 +37,9 @@ videosRouter.get('/',
         validTitle,
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-
-            const newVideo = await videosRepository.createVideo(req.body.title)
+            const newVideo = await videosService.createVideo(req.body.title)
             if (newVideo) {
-                res.send(newVideo)
+                res.send(newVideo).status(201)
             } else {
                 res.status(400)
             }
@@ -50,22 +49,22 @@ videosRouter.get('/',
         validTitle,
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-            const isUpdVideo = await videosRepository.updateVideoById(+req.params.id, req.body.title)
+            const isUpdVideo = await videosService.updateVideoById(+req.params.id, req.body.title)
             if (isUpdVideo) {
-                const video = videosRepository.getVideoById(+req.params.id)
-                res.send(video).sendStatus(204)
+                const video = videosService.getVideoById(+req.params.id)
+                res.send(video).status(204)
             } else {
-                res.sendStatus(404)
+                res.status(400)
             }
         })
 
     .delete("/:videoId",
         async (req: Request, res: Response) => {
-            const delVideo = await videosRepository.deleteVideoById(+req.params.videoId)
+            const delVideo = await videosService.deleteVideoById(+req.params.videoId)
             if (delVideo) {
-                res.sendStatus(204)
+                res.status(204)
             } else {
-                res.sendStatus(404)
+                res.status(404)
             }
 
         })
