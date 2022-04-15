@@ -2,10 +2,10 @@ import {videosRepository} from "../repositories/videos-repository";
 
 export const videosService = {
     async getVideos() {
-        return videosRepository.getVideos()
+        return await videosRepository.getVideos()
     },
     async getVideoById(id: number) {
-        return videosRepository.getVideoById(id)
+        return await videosRepository.getVideoById(id)
 
     },
     async deleteVideoById(id: number) {
