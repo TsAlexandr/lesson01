@@ -20,7 +20,7 @@ export const videosRepository = {
            {id}, {$set: {title}})
         return updVideo.matchedCount === 1
     },
-    async createVideo(newVideo) {
+    async createVideo({newVideo}: { newVideo: any }) {
         await videosCollection.insertOne(newVideo)
         return newVideo
         }
