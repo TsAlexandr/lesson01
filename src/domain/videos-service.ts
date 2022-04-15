@@ -20,6 +20,6 @@ export const videosService = {
             title: title,
             author: 'it-incubator.eu'
         }
-        return await videosRepository.createVideo({newVideo: newVideo})
+        return await videosRepository.createVideo(newVideo)
     }
 }

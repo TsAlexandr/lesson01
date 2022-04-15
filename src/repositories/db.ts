@@ -19,8 +19,14 @@ export async function runDb() {
         await client.close();
     }
 }
+export type VideoType = {
+    id: number;
+    title: string;
+    author: string;
+}
 
-export const videos = [
+
+export let videos: VideoType[] = [
     {id: 1, title: 'About JS - 01', author: 'it-incubator.eu'},
     {id: 2, title: 'About JS - 02', author: 'it-incubator.eu'},
     {id: 3, title: 'About JS - 03', author: 'it-incubator.eu'},

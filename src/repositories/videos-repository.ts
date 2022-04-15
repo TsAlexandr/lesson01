@@ -1,4 +1,4 @@
-import {videosCollection} from "./db";
+import {videosCollection, VideoType} from "./db";
 
 
 export const videosRepository = {
@@ -20,7 +20,7 @@ export const videosRepository = {
            {id}, {$set: {title}})
         return updVideo.matchedCount === 1
     },
-    async createVideo({newVideo}: { newVideo: any }) {
+    async createVideo(newVideo:VideoType) {
         await videosCollection.insertOne(newVideo)
         return newVideo
         }

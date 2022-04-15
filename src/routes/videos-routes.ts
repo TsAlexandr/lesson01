@@ -9,21 +9,21 @@ videosRouter.get('/',
     async (req, res) => {
     const videos = await videosService.getVideos()
     if (!videos) {
-        res.status(400)
+        res.sendStatus(400)
     } else {
-        res.send(videos).status(200)
+        res.send(videos)
     }
 })
 
     .get('/:videoId',
         inputValidatorMiddleware,
         async (req, res) => {
-
-            const video = await videosService.getVideoById(+req.params.id)
+            const id = +req.params.id
+            const video = await videosService.getVideoById(id)
             if (video) {
-                res.send(video).status(200)
+                res.send(video)
             } else {
-                res.status(404)
+                res.sendStatus(404)
             }
         })
 
@@ -39,7 +39,7 @@ videosRouter.get('/',
             if (newVideo) {
                 res.status(201).send(newVideo)
             } else {
-                res.status(400)
+                res.sendStatus(400)
             }
         })
 
@@ -51,21 +51,23 @@ videosRouter.get('/',
             .withMessage('Only letters/numbers-_ and whitespace'),
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-            const isUpdVideo = await videosService.updateVideoById(+req.params.id, req.body.title)
+            const id = +req.params.id
+            const isUpdVideo = await videosService.updateVideoById(id, req.body.title)
             if (isUpdVideo) {
-                res.status(204)
+                res.sendStatus(204)
             } else {
-                res.status(400)
+                res.sendStatus(400)
             }
         })
 
     .delete("/:videoId",
         async (req: Request, res: Response) => {
-            const delVideo = await videosService.deleteVideoById(+req.params.videoId)
+            const id = +req.params.videoId
+            const delVideo = await videosService.deleteVideoById(id)
             if (delVideo) {
-                res.status(204)
+                res.sendStatus(204)
             } else {
-                res.status(404)
+                res.sendStatus(404)
             }
 
         })
