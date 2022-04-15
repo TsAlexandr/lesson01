@@ -3,7 +3,8 @@ import {MongoClient} from 'mongodb'
 const mongoUri =
     process.env.mongoURI = "mongodb://localhost:27017/?maxPoolSize=20&w=majority";
 
-export const client = new MongoClient(mongoUri);
+export const client = new MongoClient(mongoUri)
+export const videosCollection = client.db().collection('videos')
 
 export async function runDb() {
     try {
@@ -19,15 +20,7 @@ export async function runDb() {
     }
 }
 
-export const videosCollection = client.db().collection('videos- management')
-
-type Videos = {
-    id: number,
-    title: string,
-    author: string
-}
-
-export const videos: Videos[] = [
+export const videos = [
     {id: 1, title: 'About JS - 01', author: 'it-incubator.eu'},
     {id: 2, title: 'About JS - 02', author: 'it-incubator.eu'},
     {id: 3, title: 'About JS - 03', author: 'it-incubator.eu'},

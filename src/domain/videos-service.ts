@@ -1,7 +1,4 @@
-import {videosCollection} from "../repositories/db";
 import {videosRepository} from "../repositories/videos-repository";
-
-
 
 export const videosService = {
     async getVideos() {
@@ -12,13 +9,10 @@ export const videosService = {
 
     },
     async deleteVideoById(id: number) {
-        const delVideo = await videosCollection.deleteOne({id})
-        return delVideo.deletedCount === 1
+        return await videosRepository.deleteVideoById(id)
     },
     async updateVideoById(id: number, title: string) {
-        const updVideo = await videosCollection.updateOne(
-            {id}, {$set: {title}})
-        return updVideo.matchedCount === 1
+        return await videosRepository.updateVideoById(id, title)
     },
     async createVideo(title: string) {
         const newVideo = {
@@ -27,7 +21,5 @@ export const videosService = {
             author: 'it-incubator.eu'
         }
         return await videosRepository.createVideo(newVideo)
-
-
     }
 }

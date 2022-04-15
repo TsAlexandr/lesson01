@@ -3,12 +3,8 @@ import {videosCollection} from "./db";
 
 export const videosRepository = {
     async getVideos() {
-        const video = await videosCollection.find()
-            if (video) {
-                return video
-            } else {
-                return null
-            }
+        const video = await videosCollection.find().toArray()
+            return video
     },
     async getVideoById(id: number) {
         const video = await videosCollection.findOne({id})
@@ -25,7 +21,7 @@ export const videosRepository = {
         return updVideo.matchedCount === 1
     },
     async createVideo(newVideo) {
-        const videos = await videosCollection.insertOne(newVideo)
+        await videosCollection.insertOne(newVideo)
         return newVideo
         }
 }
