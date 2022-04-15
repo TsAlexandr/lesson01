@@ -1,4 +1,4 @@
-import {videos, videosCollection} from "../repositories/db";
+import {videosCollection} from "../repositories/db";
 import {videosRepository} from "../repositories/videos-repository";
 
 
@@ -27,7 +27,7 @@ export const videosService = {
             author: 'it-incubator.eu'
         }
         return await videosRepository.createVideo(newVideo)
-        return newVideo
+
 
     }
 }

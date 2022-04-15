@@ -51,8 +51,7 @@ videosRouter.get('/',
         async (req: Request, res: Response) => {
             const isUpdVideo = await videosService.updateVideoById(+req.params.id, req.body.title)
             if (isUpdVideo) {
-                const video = videosService.getVideoById(+req.params.id)
-                res.send(video).status(204)
+                res.status(204)
             } else {
                 res.status(400)
             }
