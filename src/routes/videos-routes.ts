@@ -5,12 +5,6 @@ import {body} from "express-validator";
 
 export const videosRouter = Router({})
 
-const validTitle = body('title')
-    .isLength({min: 5, max: 15})
-    .withMessage('Max 15 symbols')
-    .matches(/^[\w ]*$/)
-    .withMessage('Only letters/numbers-_ and whitespace')
-
 videosRouter.get('/',
     async (req, res) => {
     const videos = await videosService.getVideos()
@@ -34,7 +28,11 @@ videosRouter.get('/',
         })
 
     .post('/',
-        validTitle,
+        body('title')
+            .isLength({min: 5, max: 15})
+            .withMessage('Max 15 symbols')
+            .matches(/^[\w ]*$/)
+            .withMessage('Only letters/numbers-_ and whitespace'),
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
             const newVideo = await videosService.createVideo(req.body.title)
@@ -46,7 +44,11 @@ videosRouter.get('/',
         })
 
     .put('/:videoId',
-        validTitle,
+        body('title')
+            .isLength({min: 5, max: 15})
+            .withMessage('Max 15 symbols')
+            .matches(/^[\w ]*$/)
+            .withMessage('Only letters/numbers-_ and whitespace'),
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
             const isUpdVideo = await videosService.updateVideoById(+req.params.id, req.body.title)
