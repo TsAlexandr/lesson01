@@ -3,10 +3,18 @@ import {videosCollection, VideoType} from "./db";
 
 export const videosRepository = {
     async getVideos() {
-        return await videosCollection.find().toArray()
+        const videos = await videosCollection.find().toArray()
+        return videos
     },
     async getVideoById(id: number) {
-        return await videosCollection.findOne({id})
+        const videoById = await videosCollection.findOne({id})
+        if(videoById) {
+            return {
+                id: videoById.id,
+                author: videoById.author,
+                title: videoById.title
+            }
+        }
     },
     async deleteVideoById(id: number) {
         const delVideo = await videosCollection.deleteOne({id})
@@ -18,7 +26,11 @@ export const videosRepository = {
         return updVideo.matchedCount === 1
     },
     async createVideo(newVideo:VideoType) {
-        return await videosCollection.insertOne(newVideo)
-
+        await videosCollection.insertOne(newVideo)
+        return {
+            id: newVideo.id,
+            title: newVideo.title,
+            author: newVideo.author
         }
+    }
 }

@@ -15,10 +15,10 @@ videosRouter.get('/',
     }
 })
 
-    .get('/:id',
+    .get('/:videoId',
         inputValidatorMiddleware,
         async (req, res) => {
-            const id = +req.params.id
+            const id = +req.params.videoId
             const video = await videosService.getVideoById(id)
             if (video) {
                 res.send(video).status(200)
@@ -43,7 +43,7 @@ videosRouter.get('/',
             }
         })
 
-    .put('/:id',
+    .put('/:videoId',
         body('title')
             .isString()
             .trim()
@@ -51,7 +51,7 @@ videosRouter.get('/',
             .isEmpty(),
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
-            const id = +req.params.id
+            const id = +req.params.videoId
             const isUpdVideo = await videosService.updateVideoById(id, req.body.title)
             if (isUpdVideo) {
                 res.sendStatus(204)
@@ -60,9 +60,9 @@ videosRouter.get('/',
             }
         })
 
-    .delete("/:id",
+    .delete("/:videoId",
         async (req: Request, res: Response) => {
-            const id = +req.params.id
+            const id = +req.params.videoId
             const delVideo = await videosService.deleteVideoById(id)
             if (delVideo) {
                 res.sendStatus(204)
