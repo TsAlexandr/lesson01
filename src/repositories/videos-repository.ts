@@ -14,6 +14,8 @@ export const videosRepository = {
                 author: videoById.author,
                 title: videoById.title
             }
+        } else{
+            return false
         }
     },
     async deleteVideoById(id: number) {
