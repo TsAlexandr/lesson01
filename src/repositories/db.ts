@@ -4,7 +4,7 @@ import {MongoClient} from 'mongodb'
 const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/?maxPoolSize=20&w=majority"
 
 export const client = new MongoClient(mongoUri)
-export const videosCollection = client.db().collection('videos')
+export const videosCollection = client.db("videosAut").collection('videos')
 
 export async function runDb() {
     try {
