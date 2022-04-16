@@ -6,8 +6,7 @@ export const videosRepository = {
         return videos
     },
     getVideoById(id: number) {
-        const video = videos.find(v => v.id === id)
-        return video
+        return videos.find(v => v.id === id)
     },
     deleteVideoById(id: number) {
         for (let i = 0; i < videos.length; i++) {

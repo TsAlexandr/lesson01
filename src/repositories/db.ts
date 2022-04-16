@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import {MongoClient} from 'mongodb'
 
-const mongoUri = process.env.mongoURI = "mongodb://localhost:27017/?maxPoolSize=20&w=majority"
+const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/?maxPoolSize=20&w=majority"
 
 export const client = new MongoClient(mongoUri)
 export const videosCollection = client.db().collection('videos')
@@ -19,12 +19,12 @@ export async function runDb() {
         await client.close();
     }
 }
+
 export type VideoType = {
     id: number;
     title: string;
     author: string;
 }
-
 
 export let videos: VideoType[] = [
     {id: 1, title: 'About JS - 01', author: 'it-incubator.eu'},
