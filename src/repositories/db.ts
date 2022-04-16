@@ -1,7 +1,7 @@
 import {MongoClient} from 'mongodb'
 
 const mongoUri =
-    process.env.mongoURI = "mongodb+srv://hello:rerere@cluster0.rxylv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    process.env.mongoURI
 
 export const client = new MongoClient(mongoUri)
 export const videosCollection = client.db().collection('videos')
