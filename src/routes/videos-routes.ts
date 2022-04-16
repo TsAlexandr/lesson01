@@ -29,10 +29,9 @@ videosRouter.get('/',
 
     .post('/',
         body('title')
-            .isLength({min: 4, max: 40})
+            .isLength({max: 40, min: 4})
             .withMessage('Max 15 symbols')
-            .matches(/^[\w ]*$/)
-            .withMessage('Only letters/numbers-_ and whitespace'),
+            .matches(/^[\w ]*$/),
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
             const newVideo = await videosService.createVideo(req.body.title)
@@ -45,10 +44,9 @@ videosRouter.get('/',
 
     .put('/:videoId',
         body('title')
-            .isLength({min: 4, max: 40})
+            .isLength({max: 40, min: 40})
             .withMessage('Max 15 symbols')
-            .matches(/^[\w ]*$/)
-            .withMessage('Only letters/numbers-_ and whitespace'),
+            .matches(/^[\w ]*$/),
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
             const id = +req.params.id
