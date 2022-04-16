@@ -21,7 +21,7 @@ videosRouter.get('/',
             const id = +req.params.id
             const video = await videosService.getVideoById(id)
             if (video) {
-                res.send(video)
+                res.send(video).status(200)
             } else {
                 res.sendStatus(404)
             }
@@ -37,7 +37,7 @@ videosRouter.get('/',
         async (req: Request, res: Response) => {
             const newVideo = await videosService.createVideo(req.body.title)
             if (newVideo) {
-                res.status(201).send(newVideo)
+                res.send(newVideo).status(201)
             } else {
                 res.sendStatus(400)
             }

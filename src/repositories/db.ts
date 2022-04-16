@@ -13,7 +13,6 @@ export async function runDb() {
         // Establish and verify connection
         await client.db("videosAut").command({ ping: 1 });
         console.log("Connected successfully to mongo server");
-
     } catch {
         // Ensures that the client will close when you finish/error
         await client.close();
