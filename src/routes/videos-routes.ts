@@ -29,7 +29,7 @@ videosRouter.get('/',
 
     .post('/',
         body('title')
-            .isLength({min: 5, max: 15})
+            .isLength({min: 4, max: 40})
             .withMessage('Max 15 symbols')
             .matches(/^[\w ]*$/)
             .withMessage('Only letters/numbers-_ and whitespace'),
@@ -45,7 +45,7 @@ videosRouter.get('/',
 
     .put('/:videoId',
         body('title')
-            .isLength({min: 5, max: 15})
+            .isLength({min: 4, max: 40})
             .withMessage('Max 15 symbols')
             .matches(/^[\w ]*$/)
             .withMessage('Only letters/numbers-_ and whitespace'),
