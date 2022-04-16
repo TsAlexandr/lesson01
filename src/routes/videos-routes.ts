@@ -29,9 +29,10 @@ videosRouter.get('/',
 
     .post('/',
         body('title')
-            .isLength({max: 40, min: 4})
-            .withMessage('Max 15 symbols')
-            .matches(/^[\w ]*$/),
+            .isString()
+            .trim()
+            .not()
+            .isEmpty(),
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
             const newVideo = await videosService.createVideo(req.body.title)
@@ -44,25 +45,24 @@ videosRouter.get('/',
 
     .put('/:id',
         body('title')
-            .isLength({max: 40, min: 40})
-            .withMessage('Max 15 symbols')
-            .matches(/^[\w ]*$/),
+            .isString()
+            .trim()
+            .not()
+            .isEmpty(),
         inputValidatorMiddleware,
         async (req: Request, res: Response) => {
             const id = +req.params.id
             const isUpdVideo = await videosService.updateVideoById(id, req.body.title)
             if (isUpdVideo) {
                 res.sendStatus(204)
-            } else if (!isUpdVideo) {
-                res.sendStatus(404)
             } else {
-                res.sendStatus(400)
+                res.sendStatus(404)
             }
         })
 
     .delete("/:id",
         async (req: Request, res: Response) => {
-            const id = +req.params.videoId
+            const id = +req.params.id
             const delVideo = await videosService.deleteVideoById(id)
             if (delVideo) {
                 res.sendStatus(204)
